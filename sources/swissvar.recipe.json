@@ -1,0 +1,37 @@
+{
+"sources" : {
+  "files" : [ "swissvar.tsv" ]
+},
+"preprocess" : {
+  "data" : {
+    "$[?(@.variant)].siteid" : {
+      "uniprot" : "$.(clean(@.accession))",
+      "siteid" : "$.(@.feature_identifier)",
+      "vals" : "$.(match(@.variant,'([A-Za-z]+)(\\\\d+)([A-Za-z]+)',0))",
+      "rsid" : "$.rs_id"
+    }
+  }
+},
+"template" :{
+  "data" : {
+    "$.data[*].uniprot" : {
+      "uniprot" : "$[0].uniprot",
+      "variant" : "$[0].(@.vals[2])",
+      "site"    : "$[0].(+@.vals[1])",
+      "rsid"    : "$[0].(@.rsid)"
+    }
+  },
+  "metadata": {
+    "msdata-version" : "1.3",
+    "data-version" : "$.(version)",
+    "software" : {"ARRAY": "true", "0" : { "name" : "hirenj/node-swissvarsync", "version" : "$.(git)" , "run-date" : "$.(timestamp)" }},
+    "sample" : {
+      "species" : "$.(+taxid)"
+    },
+    "title" : "$.('Swissvar variation data '+taxid)",
+    "mimetype" : "application/json+variation"
+  }
+},
+"environment" : {
+}
+}
