@@ -1,0 +1,19 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - npm install -g hirenj/node-reciperunner
+  pre_build:
+    commands:
+      - bash ./check_versions.sh $BUILD_TAXONOMY
+  build:
+    commands:
+      - echo "Running build step $BUILD_TAXONOMY"
+      - bash ./run_swissvar.sh $BUILD_TAXONOMY
+  post_build:
+    commands:
+      - echo "Skipping post_build"
+artifacts:
+  files:
+    - dist
